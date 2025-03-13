@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+        <script src="https://kit.fontawesome.com/0d0e7ded81.js" crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="{{ url_for('static', filename='navbar.css') }}">
+
+        {% block head %}
+        {% endblock %}
+    </head>
+    <body>
+        <nav class="nav">
+            <span class="nome">Nome da Empresa</span>
+            <a  href="/"><i class="fa-solid fa-user"></i></i>Pacientes</a>
+            <a href="/doutor"><i class="fa-solid fa-user-doctor"></i>Doutor</a>
+            <a href="/chamada"><i class="fa-solid fa-bell"></i>Chamada de Pacientes</a>
+        </nav>
+        <div style="flex:1; margin:10px">
+            {% block body %}
+            {% endblock %}
+        </div>
+    </body>
+</html>

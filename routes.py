@@ -1,15 +1,20 @@
-from flask import request, jsonify, render_template
+from flask import request, render_template, redirect
 from main import app
 from models import *
-
-@app.route('/')
-def home():
-    return render_template('index.html')
 
 
 @app.route('/cadastrar')
 def cadastrar():
     return render_template("cadastrarPaciente.html")
+
+@app.route('/doutor')
+def doutor():
+    return render_template('doutor.html')
+
+@app.route('/chamada')
+def chamada():
+    return render_template('chamadaPaciente.html')
+
 
 #Cadastro de pacientes.
 @app.route('/cadastrar/enviar', methods=['POST'])
@@ -22,30 +27,22 @@ def cadastroEnviar():
     db.session.add(novo_Paciente)
     db.session.commit()
 
-    return "Certinho"
+    return redirect('/')
 
 #Le todos os pacientes.
-@app.route('/ler', methods = ['GET'])
+@app.route('/', methods = ['GET'])
 def ler():
     pacientes = Pacientes.query.all()
-    
-    pacientes_json = [
-        {
-            'id' : paciente.id,
-            'nome' : paciente.nome,
-            'descricao' : paciente.descricao
-        } for paciente in pacientes
-    ]
-    return jsonify(pacientes_json)
+ 
+    return render_template('home.html', pacientes = pacientes)
 
 #Deleta um paciente.
-@app.route('/deletar/<int:id>', methods = ['DELETE'])
+@app.route('/deletar/<int:id>', methods = ['POST'])
 def deletar(id):
     paciente = Pacientes.query.get(id)
 
     if paciente:
         db.session.delete(paciente)
         db.session.commit()
-    else:
-        return "Esse cara existe nao"
-    return "Deletado com sucesso."
+
+    return redirect('/')

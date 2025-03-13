@@ -7,14 +7,18 @@
         <title>Document</title>
     </head>
     <body>
-        <div>
+        <div class='page'>
             <h1 style="text-align: center;">Cadastro de Paciente</h1>
             <form class="formulario" action="/cadastrar/enviar" method="POST">
                 <label for="nome">Nome</label>
                 <input type="text" name="nome" required>
                 <label for="descricao">Descrição</label>
                 <input type="text" name="descricao" required>
-                <button  type="submit">Enviar</button>
+                <div class="buttons">
+                    <button  type="button" onclick="location.href='/'">Voltar</button>
+
+                    <button  type="submit">Enviar</button>
+                </div>
             </form>
         </div>
     </body>
