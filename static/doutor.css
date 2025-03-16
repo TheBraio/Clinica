@@ -1,0 +1,44 @@
+.container {
+    display:flex;
+    flex-direction: column;
+    height:100%;
+    width:100%;
+    align-items: center;
+    position: relative;
+}
+
+.title {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.text-paciente {
+    font-weight: bold;
+    font-size: 1.5rem;
+    text-align: center;
+    width: 100%;
+}
+.container-paciente {
+    margin-right:auto;
+
+    display:flex;
+    flex-direction: column;
+    border: 3px outset #41ABA9;
+    border-radius: 10px;
+    width: 40%;
+    height:80%;
+
+    background-color: #41ABA9;
+}
+
+.main-container {
+    background-color: #ffffff;
+}
+
+.button {
+    margin-top: 20px;
+    background: none;
+    width: 20rem;
+    height:5rem
+}

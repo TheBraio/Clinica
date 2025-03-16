@@ -12,12 +12,12 @@
     </head>
     <body>
         <nav class="nav">
-            <span class="nome">Nome da Empresa</span>
+            <img src="{{ url_for('static', filename='logo.png') }}" alt="">
             <a  href="/"><i class="fa-solid fa-user"></i></i>Pacientes</a>
             <a href="/doutor"><i class="fa-solid fa-user-doctor"></i>Doutor</a>
             <a href="/chamada"><i class="fa-solid fa-bell"></i>Chamada de Pacientes</a>
         </nav>
-        <div style="flex:1; margin:10px">
+        <div class='main-container'>
             {% block body %}
             {% endblock %}
         </div>
