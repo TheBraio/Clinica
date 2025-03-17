@@ -1,23 +1,28 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
     <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="{{ url_for('static', filename='cadastrarPaciente.css') }}">
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link
+            rel="stylesheet"
+            href="{{ url_for('static', filename='css/cadastrarPaciente.css') }}"
+        />
         <title>Document</title>
     </head>
     <body>
-        <div class='page'>
-            <h1 style="text-align: center;">Cadastro de Paciente</h1>
+        <div class="page">
+            <h1 style="text-align: center">Cadastro de Paciente</h1>
             <form class="formulario" action="/cadastrar/enviar" method="POST">
                 <label for="nome">Nome</label>
-                <input type="text" name="nome" required>
+                <input type="text" name="nome" required />
                 <label for="descricao">Descrição</label>
-                <input type="text" name="descricao" required>
+                <input type="text" name="descricao" required />
                 <div class="buttons">
-                    <button  type="button" onclick="location.href='/'">Voltar</button>
+                    <button type="button" onclick="location.href='/'">
+                        Voltar
+                    </button>
 
-                    <button  type="submit">Enviar</button>
+                    <button type="submit">Enviar</button>
                 </div>
             </form>
         </div>
