@@ -1,14 +1,7 @@
-from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
+from extensions import app, db, socketio
+from routes import *  # noqa: F403
 
-app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///dados.db'
-
-db = SQLAlchemy(app)
-
-from routes import *
-
-if __name__ == '__main__':
+if __name__ == "__main__":
     with app.app_context():
         db.create_all()
-    app.run(debug=True, port=55555)
+    socketio.run(app, debug=True)
