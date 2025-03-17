@@ -21,11 +21,6 @@ def doutor():
     return render_template("doutor.html")
 
 
-@app.route("/chamada")
-def chamada():
-    return render_template("chamadaPaciente.html")
-
-
 @app.route("/cadastrar/enviar", methods=["POST"])
 def cadastroEnviar():
     nome = request.form["nome"]
@@ -56,8 +51,33 @@ def deletar(id):
 
 
 # Fila de pacientes
+
 queue = Queue()
 paciente_atual = None
+
+
+@socketio.on("connect")
+def handle_connect():
+    print("Cliente conectado")
+
+
+@socketio.on("disconnect")
+def handle_disconnect():
+    print("Cliente desconectado")
+
+
+@app.route("/chamada")
+def chamada():
+    socketio.emit(
+        "handshake",
+        {
+            "message": "Conexão estabelecida",
+            "paciente": {"id": paciente_atual.id, "nome": paciente_atual.nome}
+            if paciente_atual
+            else None,
+        },
+    )
+    return render_template("chamadaPaciente.html")
 
 
 @app.route("/add_paciente/<int:id>", methods=["POST"])
@@ -95,22 +115,3 @@ def next_patient():
         ), 200
     else:
         return jsonify({"status": "error", "message": "Fila vazia"}), 404
-
-
-@socketio.on("connect")
-def handle_connect():
-    print("Cliente conectado")
-    socketio.emit(
-        "handshake",
-        {
-            "message": "Conexão estabelecida",
-            "paciente": {"id": paciente_atual.id, "nome": paciente_atual.nome}
-            if paciente_atual
-            else None,
-        },
-    )
-
-
-@socketio.on("disconnect")
-def handle_disconnect():
-    print("Cliente desconectado")
