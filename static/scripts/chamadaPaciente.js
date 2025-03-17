@@ -12,8 +12,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   socket.on("next_patient", function (data) {
     console.log("Atualizou", data);
-    document.getElementById("lastCalls").innerText =
-      document.getElementById("namePatient").innerText;
+    document.getElementById("lastCalls").innerText = document.getElementById("namePatient").innerText;
     document.getElementById("namePatient").innerText = data.nome;
   });
 });

@@ -42,3 +42,8 @@ a i {
     text-align: center;
     color: white
 }
+
+.main-container {
+    flex:1; 
+    margin:10px
+}
