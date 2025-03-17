@@ -14,17 +14,19 @@
             href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
             rel="stylesheet"
         />
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+        <script src="{{ url_for('static', filename='scripts/chamadaPaciente.js') }}"></script>
     </head>
     <body>
         <div class="container font-montserrat">
             <div class="row1">
                 <div class="block text-center">
                     <span class="title">CONSULTÓRIO</span>
-                    <span class="text font-consultorio">04</span>
+                    <span class="text font-consultorio">TODO</span>
                 </div>
                 <div class="block">
                     <span class="title text-center">ÚLTIMAS CHAMADAS</span>
-                    <span class="text"></span>
+                    <span class="text" id="lastCalls"></span>
                 </div>
                 <div class="block">
                     <span class="title text-center">FILA</span>
@@ -34,7 +36,7 @@
             <div class="row2">
                 <div class="block text-center">
                     <span class="title">PACIENTE</span>
-                    <span class="text">Bryan Oliveira Carvalho de Souza</span>
+                    <span class="text" id="namePatient"></span>
                 </div>
                 <div class="block text-center">
                     <span class="title">PROFISSIONAL</span>

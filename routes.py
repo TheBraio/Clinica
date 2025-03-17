@@ -4,16 +4,14 @@ from models import Pacientes
 from queue import Queue
 
 
-#Teste branch
+# Teste branch
 
 
-class Rotas:
-    @app.route("/", methods=["GET"])
-    def ler(self):
-        pacientes = Pacientes.query.all()
-        return render_template("home.html", pacientes=pacientes)
+@app.route("/", methods=["GET"])
+def ler():
+    pacientes = Pacientes.query.all()
+    return render_template("home.html", pacientes=pacientes)
 
-rotas = Rotas()
 
 @app.route("/cadastrar")
 def cadastrar():
@@ -63,15 +61,6 @@ paciente_atual = None
 @socketio.on("connect")
 def handle_connect():
     print("Cliente conectado")
-
-
-@socketio.on("disconnect")
-def handle_disconnect():
-    print("Cliente desconectado")
-
-
-@app.route("/chamada")
-def chamada():
     socketio.emit(
         "handshake",
         {
@@ -81,6 +70,15 @@ def chamada():
             else None,
         },
     )
+
+
+@socketio.on("disconnect")
+def handle_disconnect():
+    print("Cliente desconectado")
+
+
+@app.route("/chamada")
+def chamada():
     return render_template("chamadaPaciente.html")
 
 
