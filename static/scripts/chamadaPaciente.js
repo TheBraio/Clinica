@@ -7,7 +7,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
   socket.on("handshake", function (data) {
     console.log("Handshake:", data);
-    document.getElementById("namePatient").innerText = data.nome;
+    if (data.paciente) {
+      document.getElementById("namePatient").innerText = data.nome;
+    } else {
+      document.getElementById("namePatient").innerText = "Não definido.";
+    }
   });
 
   socket.on("next_patient", function (data) {

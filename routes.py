@@ -4,26 +4,29 @@ from models import Pacientes
 from queue import Queue
 
 
-# Teste branch
-
-
 @app.route("/", methods=["GET"])
 def ler():
     pacientes = Pacientes.query.all()
     return render_template("home.html", pacientes=pacientes)
 
 
-@app.route("/cadastrar")
+####
+#### Pacientes CRUD
+####
+
+
+@app.route("/pacientes")
+def paciente_view():
+    pacientes = Pacientes.query.all()
+    return render_template("paciente_view.html", pacientes=pacientes)
+
+
+@app.route("/pacientes/cadastrar")
 def cadastrar():
     return render_template("cadastrarPaciente.html")
 
 
-@app.route("/doutor")
-def doutor():
-    return render_template("doutor.html")
-
-
-@app.route("/cadastrar/enviar", methods=["POST"])
+@app.route("/pacientes/cadastrar", methods=["POST"])
 def cadastroEnviar():
     nome = request.form["nome"]
     descricao = request.form["descricao"]
@@ -36,11 +39,6 @@ def cadastroEnviar():
     return redirect("/")
 
 
-@app.route("/teste", methods=["GET"])
-def teste():
-    return render_template("teste.html")
-
-
 @app.route("/deletar/<int:id>", methods=["POST"])
 def deletar(id):
     paciente = Pacientes.query.get(id)
@@ -50,6 +48,16 @@ def deletar(id):
         db.session.commit()
 
     return redirect("/")
+
+
+@app.route("/doutor")
+def doutor():
+    return render_template("doutor.html")
+
+
+@app.route("/teste", methods=["GET"])
+def teste():
+    return render_template("teste.html")
 
 
 # Fila de pacientes
