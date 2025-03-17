@@ -1,44 +1,34 @@
-.container {
+.main-container {
     display:flex;
     flex-direction: column;
-    height:100%;
+}
+
+.container {
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr;
+    height:70%;
     width:100%;
-    align-items: center;
-    position: relative;
+    gap: 20px
+}
+
+.block {
+    display:flex;
+    flex-direction: column;
+    border: 2px solid;
+    padding-left: 20px;
+    padding-right: 20px;
 }
 
 .title {
+    text-align: center;
     font-size: 2rem;
     font-weight: bold;
-    margin-bottom: 20px;
+    margin-bottom: 40px;
 }
 
-.text-paciente {
-    font-weight: bold;
-    font-size: 1.5rem;
+.subtitles {
     text-align: center;
-    width: 100%;
-}
-.container-paciente {
-    margin-right:auto;
-
-    display:flex;
-    flex-direction: column;
-    border: 3px outset #41ABA9;
-    border-radius: 10px;
-    width: 40%;
-    height:80%;
-
-    background-color: #41ABA9;
-}
-
-.main-container {
-    background-color: #ffffff;
-}
-
-.button {
-    margin-top: 20px;
-    background: none;
-    width: 20rem;
-    height:5rem
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 30px;
 }

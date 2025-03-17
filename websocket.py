@@ -32,11 +32,7 @@ def add_paciente(id):
 
     if paciente:
         queue.put(paciente)
-        socketio.emit("queue_updated", {"message": "Paciente adicionado à fila"})
-        print("Paciente adicionado à fila, fila atual:")
-        temp_queue = list(queue.queue)
-        for i in temp_queue:
-            print(i.nome)
+        socketio.emit("queue_updated", {"message": "Paciente adicionado à fila", 'queue':queue.queue})
         return jsonify(
             {"status": "success", "message": "Paciente adicionado à fila"}
         ), 200
