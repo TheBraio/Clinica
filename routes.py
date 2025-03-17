@@ -3,6 +3,10 @@ from extensions import app, db, socketio
 from models import Pacientes
 from queue import Queue
 
+
+#Teste branch
+
+
 class Rotas:
     @app.route("/", methods=["GET"])
     def ler(self):
