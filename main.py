@@ -1,6 +1,6 @@
 from extensions import app, db, socketio
 from routes import *  # noqa: F403
-
+#Teste
 if __name__ == "__main__":
     with app.app_context():
         db.create_all()

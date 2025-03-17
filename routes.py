@@ -3,6 +3,13 @@ from extensions import app, db, socketio
 from models import Pacientes
 from queue import Queue
 
+class Rotas:
+    @app.route("/", methods=["GET"])
+    def ler(self):
+        pacientes = Pacientes.query.all()
+        return render_template("home.html", pacientes=pacientes)
+
+rotas = Rotas()
 
 @app.route("/cadastrar")
 def cadastrar():
@@ -30,12 +37,6 @@ def cadastroEnviar():
     db.session.commit()
 
     return redirect("/")
-
-
-@app.route("/", methods=["GET"])
-def ler():
-    pacientes = Pacientes.query.all()
-    return render_template("home.html", pacientes=pacientes)
 
 
 @app.route("/teste", methods=["GET"])
