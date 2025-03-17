@@ -4,16 +4,10 @@ from models import Pacientes
 from queue import Queue
 
 
-#Teste branch
+def ler():
+    pacientes = Pacientes.query.all()
+    return render_template("home.html", pacientes=pacientes)
 
-
-class Rotas:
-    @app.route("/", methods=["GET"])
-    def ler(self):
-        pacientes = Pacientes.query.all()
-        return render_template("home.html", pacientes=pacientes)
-
-rotas = Rotas()
 
 @app.route("/cadastrar")
 def cadastrar():
