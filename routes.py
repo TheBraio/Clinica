@@ -28,6 +28,16 @@ def cadastrar():
 from views import *
 from websocket import *
 
+@app.route("/login", methods=['POST'])
+def loginSend():
+    nome = request.form['nome']
+    senha = request.form['senha']
+    
+    if nome == 'admin':
+        if senha == '123':    
+            session["nome"] = nome
+            return redirect("/admin-funcionarios")
+    return redirect("/")
 
 @app.route("/cadastrar/enviar", methods=["POST"])
 def cadastroEnviar():

@@ -1,0 +1,36 @@
+.container-login {
+    display: flex;
+    flex-direction: column;
+    height: 50%;
+    width: 25%;
+    border: 2px outset rgb(194, 194, 194);
+    border-radius: 10px;
+    padding: min(40px, 5%);
+}
+
+.text-login {
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: min(50px, 20%);
+}
+
+input {
+    height: 8%;
+    border-radius: 5px;
+    margin-top: 2px;
+    margin-bottom: min(100px, 10%);
+}
+
+button {
+    height: 12%;
+    border:  none;
+    border-radius: 10px;
+    cursor: pointer;
+    background-color: aquamarine;
+}
+
+.main-container {
+    display:flex;
+    align-items: center;
+    justify-content: center;
+}

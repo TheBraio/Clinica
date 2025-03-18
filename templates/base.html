@@ -13,8 +13,11 @@
     <body>
         <nav class="nav">
             <img src="{{ url_for('static', filename='img/logo.png')}}" alt="">
-            <a  href="/"><i class="fa-solid fa-user"></i></i>Pacientes</a>
-            <a href="/doutor"><i class="fa-solid fa-user-doctor"></i>Doutor</a>
+            {% for link in links %}
+                <!-- <a href="{{href}}"><i class="{{ icone }}"></i></i>{{ text }}</a> -->
+                <!-- <a href="/doutor"><i class="fa-solid fa-user-doctor"></i>Doutor</a> -->
+                <a href="{{ link.rota }}"><i class="{{ link.icone }}"></i>{{ link.texto }}</a>
+            {% endfor %}
             <a href="/chamada"><i class="fa-solid fa-bell"></i>Chamada de Pacientes</a>
         </nav>
         <div class="main-container">
