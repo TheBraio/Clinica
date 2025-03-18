@@ -22,8 +22,8 @@ def admin_funcionarios():
 @app.route("/atendente-pacientes", methods=["GET"])
 def ler():
     pacientes = Pacientes.query.all()
-    #return render_template("home.html", pacientes=pacientes,)
-    return render_template('home.html')
+    
+    return render_template("home.html", pacientes=pacientes,)
 
 @app.route("/atendente-cadastrar")
 def cadastrar():
