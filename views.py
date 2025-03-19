@@ -8,7 +8,7 @@ from views_recursos import *
 
 @app.route('/login', methods=["GET"])
 def login():
-    return render_template('login.html', links = links[session['nome']])
+    return render_template('login.html', links = links[session['nome'] if 'nome' in session else ''])
 
 
 # Rotas do admin
@@ -23,7 +23,7 @@ def admin_funcionarios():
 def ler():
     pacientes = Pacientes.query.all()
     
-    return render_template("home.html", pacientes=pacientes,)
+    return render_template("home.html", pacientes=pacientes)
 
 @app.route("/atendente-cadastrar")
 def cadastrar():

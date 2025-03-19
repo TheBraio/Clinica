@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Fila de Pacientes</title>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                const socket = io("http://localhost:5000");
+
+                socket.on("connect", function () {
+                    console.log("Conectado ao servidor WebSocket.");
+                });
+
+                socket.on("queue_updated", function (data) {
+                    console.log("Fila atualizada:", data.message);
+                    alert(data.message); // Mostra uma mensagem ao usuário
+                });
+
+                socket.on("next_patient", function (data) {
+                    console.log("Próximo paciente:", data.nome);
+                    alert(`Próximo paciente: ${data.nome}`); // Mostra o nome do próximo paciente
+                });
+
+                socket.on("handshake", function (data) {
+                    console.log("Handshake:", data);
+                });
+            });
+
+            // Função para adicionar um paciente à fila
+            function addPatient(patientId) {
+                fetch(`/add_paciente/${patientId}`, { method: "POST" })
+                    .then((response) => response.text())
+                    .then((data) => console.log(data))
+                    .catch((error) =>
+                        console.error("Erro ao adicionar paciente:", error),
+                    );
+            }
+
+            // Função para chamar o próximo paciente
+            function nextPatient() {
+                fetch("/next_patient", { method: "POST" })
+                    .then((response) => response.text())
+                    .then((data) => console.log(data))
+                    .catch((error) =>
+                        console.error(
+                            "Erro ao chamar próximo paciente:",
+                            error,
+                        ),
+                    );
+            }
+        </script>
+    </head>
+    <body>
+        <h1>Fila de Pacientes</h1>
+        <button onclick="addPatient(1)">Adicionar Paciente 1</button>
+        <button onclick="nextPatient()">Chamar Próximo Paciente</button>
+    </body>
+</html>
