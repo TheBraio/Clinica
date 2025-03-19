@@ -5,8 +5,10 @@ from models import Pacientes
 from views import *
 from websocket import *
 
+
+
 @app.route("/login", methods=['POST'])
-def loginSend():
+def login_send():
     nome = request.form['nome']
     senha = request.form['senha']
     
@@ -16,8 +18,10 @@ def loginSend():
             return redirect("/admin-funcionarios")
     return redirect("/")
 
+
+# CRUD pacientes
 @app.route("/cadastrar/enviar", methods=["POST"])
-def cadastroEnviar():
+def paciente_cadastrar():
     nome = request.form["nome"]
     descricao = request.form["descricao"]
 
@@ -28,9 +32,8 @@ def cadastroEnviar():
 
     return redirect("/")
 
-
 @app.route("/deletar/<int:id>", methods=["POST"])
-def deletar(id):
+def paciente_deletar(id):
     paciente = Pacientes.query.get(id)
 
     if paciente:
@@ -38,7 +41,4 @@ def deletar(id):
         db.session.commit()
 
     return redirect("/")
-
-
-
-
+# CRUD pacientes

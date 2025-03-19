@@ -3,14 +3,6 @@ from flask import render_template
 from models import Pacientes
 from views_recursos import *
 
-
-
-
-@app.route('/login', methods=["GET"])
-def login():
-    return render_template('login.html', links = links[session['nome'] if 'nome' in session else ''])
-
-
 # Rotas do admin
 @app.route('/admin-funcionarios')
 @is_admin
@@ -20,7 +12,7 @@ def admin_funcionarios():
 
 # Rotas do atendente
 @app.route("/atendente-pacientes", methods=["GET"])
-def ler():
+def atendente_pacientes():
     pacientes = Pacientes.query.all()
     
     return render_template("home.html", pacientes=pacientes)
@@ -34,9 +26,15 @@ def cadastrar():
 @app.route("/doutor-mainpage")
 def doutor():
     return render_template("doutor.html")
-# Rotas do doutor
+# Rotas do doutor 
 
+
+# Rotas Gerais
+@app.route('/login', methods=["GET"])
+def login():
+    return render_template('login.html', links = links[session['nome'] if 'nome' in session else ''])
 
 @app.route("/chamada")
 def chamada():
     return render_template("chamadaPaciente.html")
+# Rotas Gerais
