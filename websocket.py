@@ -1,9 +1,9 @@
 from queue import Queue
 from extensions import socketio, app
 from flask import jsonify
-from models import Pacientes
+from models import Paciente
 
-queue : Queue = Queue() 
+queue: Queue = Queue()
 paciente_atual = None
 
 
@@ -28,11 +28,14 @@ def handle_disconnect():
 
 @app.route("/add_paciente/<int:id>", methods=["POST"])
 def add_paciente(id):
-    paciente = Pacientes.query.get(id)
+    paciente = Paciente.query.get(id)
 
     if paciente:
         queue.put(paciente)
-        socketio.emit("queue_updated", {"message": "Paciente adicionado à fila", 'queue':queue.queue})
+        socketio.emit(
+            "queue_updated",
+            {"message": "Paciente adicionado à fila", "queue": queue.queue},
+        )
         return jsonify(
             {"status": "success", "message": "Paciente adicionado à fila"}
         ), 200
