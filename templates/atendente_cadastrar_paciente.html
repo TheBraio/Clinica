@@ -1,34 +1,36 @@
-<!doctype html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link
-            rel="stylesheet"
-            href="{{ url_for('static', filename='css/cadastrarPaciente.css') }}"
-        />
-        <title>Document</title>
-    </head>
-    <body>
-        <div class="page">
-            <h1 style="text-align: center">Cadastro de Paciente</h1>
-            <form
-                class="formulario"
-                action="/pacientes/cadastrar"
-                method="POST"
-            >
-                <label for="nome">Nome</label>
-                <input type="text" name="nome" required />
-                <label for="descricao">Descrição</label>
-                <input type="text" name="descricao" required />
-                <div class="buttons">
-                    <button type="button" onclick="location.href='/'">
-                        Voltar
-                    </button>
+{% extends 'base.html' %}
 
-                    <button type="submit">Enviar</button>
+{% block head %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/atendente_cadastrar_paciente.css') }}">
+{% endblock %}
+
+{% block body %}
+    <span class="title">Cadastro de pacientes</span>
+    <form action="">
+        <div class="container1">
+            <span class="subtitle">Informações</span>
+
+            <label for="nome">Nome</label>
+            <input type="text" id='nome' class="gap">
+
+            <label for="CPF">CPF</label>
+            <input type="text" id='CPF' class="gap">
+
+            <label for="desc">Descrição</label>
+            <input type="text" id='desc'>
+
+            <span class="subtitle">Consulta</span>
+
+            <div class="container-consulta">
+                <div style="display:flex; flex-direction: column; width: 45%">
+                    <label for="data">Data</label>
+                    <input type="date" id='data'>
                 </div>
-            </form>
+                <div style="display:flex; flex-direction: column; width: 45%">
+                    <label for="horario">Horario</label>
+                    <input type="time" id='horario'>
+                </div>
+            </div>
         </div>
-    </body>
-</html>
+    </form>
+{% endblock %}

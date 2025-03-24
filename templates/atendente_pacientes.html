@@ -2,7 +2,7 @@
 
 {% block head %}
     <script src="https://kit.fontawesome.com/0d0e7ded81.js" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/atendente_pacientes.css') }}">
 {% endblock %}
 {% block body %}
     <div class='head-page'>
@@ -27,7 +27,12 @@
                         <td> {{ paciente.descricao }} </th>
                         <td>
                             <form action="/deletar/{{ paciente.id }}" method="POST" onsubmit="return confirm('Tem certeza que deseja excluir este paciente?')">
-                                <button class='delete' type="submit"> <i class='fas fa-trash-alt' style="font-size:16px; color: red;"></i> </button>
+                                <button class='icone' type="submit"> 
+                                    <i class='fas fa-trash-alt' title="Deletar paciente." style="color: red;"></i>
+                                </button>
+                                <button class="icone">
+                                    <i class="fa-solid fa-file" title="Adicionar paciente na fila." style="color:blueviolet"></i>
+                                </button>
                             </form>
                         </td>
                     </tr>

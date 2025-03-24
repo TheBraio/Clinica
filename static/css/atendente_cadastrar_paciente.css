@@ -1,60 +1,47 @@
-body {
+.title {
+    font-size: 2rem;
+}
+
+.main-container {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    background-color: aquamarine;
 }
-button {
-    cursor:pointer
+
+.subtitle {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    margin-top: 1rem;
 }
-.buttons {
+
+form {
+    padding: 40px;
+    padding-top: 0px;
+    border: 3px ridge rgba(236, 236, 236, 0.863);
+    border-radius: 7px;
+    background-color: rgb(233, 233, 233);
+    height: 100%
+}
+
+.gap {
+    margin-bottom: .5rem
+}
+
+.container1 {
     display:flex;
-    flex-direction: row;
-    align-items: center;
-    gap: 20px
-}
-
-.page {
-    display: flex;
     flex-direction: column;
-    align-items: center;
-    width: 25em;
-    height:30em;
-    margin-top: 200px;
-    background-color: rgb(235 231 231);
-    border: 3px solid #d7d4d4;
-    border-radius: 20px;
+    width: 30%;
 }
 
-.formulario {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    width: 80%;
-    align-items: center;
-}
-
-.formulario button {
-    width: 150px;
-    margin-top: 190px;
-    border-radius: 10px;
-    height:2em;
-}
-
-.formulario input {
-    width: 99%;
-    margin-top: -10px;
-    height: 20px;
-}
-
-.formulario label {
+.container-consulta {
+    display:flex; 
+    flex-direction: row; 
     width: 100%;
-    margin-top: 20px;
+    gap: 10%
 }
 
-h1 {
-    text-align: center;
-    width: 100%;
-    height: 1em;
-    margin-bottom: 15%;
+input {
+    border: 2px ridge rgba(0, 0, 0, 0.226);
+    border-radius: 5px;
+    height: 2rem;
+    width: 100%
 }

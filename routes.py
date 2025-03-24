@@ -13,9 +13,14 @@ def login_send():
     senha = request.form['senha']
     
     if nome == 'admin':
-        if senha == '123':    
-            session["nome"] = nome
-            return redirect("/admin-funcionarios")
+        session["nome"] = nome
+        return redirect("/admin-funcionarios")
+    if nome == 'atendente':
+        session['nome'] = nome
+        return redirect('/atendente-pacientes')
+    if nome == 'doutor':
+        session['nome'] = nome
+        return redirect('/doutor-mainpage')
     return redirect("/")
 
 
