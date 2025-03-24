@@ -1,18 +1,21 @@
 from extensions import app
-from models import Pacientes
+from flask import render_template
+from models import Paciente
 from views_recursos import *
 
+
 # Rotas do admin
-@app.route('/admin-funcionarios')
+@app.route("/admin-funcionarios")
 @is_admin
 def admin_funcionarios():
     return render_template_nav('admin_funcionarios.html')
 # Rotas do admin
 
+
 # Rotas do atendente
 @app.route("/atendente-pacientes", methods=["GET"])
 def atendente_pacientes():
-    pacientes = Pacientes.query.all()
+    pacientes = Paciente.query.all()
     
     return render_template_nav("atendente_pacientes.html", pacientes=pacientes, )
 
@@ -21,7 +24,8 @@ def cadastrar():
     return render_template_nav("atendente_cadastrar_paciente.html")
 # Rotas do atendente
 
-# Rotas do doutor 
+
+# Rotas do doutor
 @app.route("/doutor-mainpage")
 def doutor():
     return render_template_nav("doutor_mainpage.html")
@@ -33,6 +37,7 @@ def doutor():
 @app.route('/', methods=["GET"])
 def login():
     return render_template_nav('login.html')
+
 
 @app.route("/chamada")
 def chamada():

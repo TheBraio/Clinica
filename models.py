@@ -1,63 +1,69 @@
-from main import db
+from extensions import db
 
 
-class Pacientes(db.Model):
-    def __init__(self, nome, descricao):
-        self.nome = nome
-        self.descricao = descricao
+class Paciente(db.Model):
+    __tablename__ = "paciente"
 
     id = db.Column(db.Integer, primary_key=True)
     nome = db.Column(db.String(50), nullable=False)
     descricao = db.Column(db.String(100))
+
+    def __init__(self, nome, descricao):
+        self.nome = nome
+        self.descricao = descricao
 
     def __repr__(self):
         return f"<Paciente {self.nome}>"
 
 
 class Funcionario(db.Model):
-    def __init__(self, nome, cargo):
-        self.nome = nome
-        self.cargo = cargo
+    __tablename__ = "funcionario"
 
     id = db.Column(db.Integer, primary_key=True)
     nome = db.Column(db.String(50), nullable=False)
     cargo = db.Column(db.String(50))
 
-    __mapper_args__ = {"polymorphic_on": cargo, "with_polymorphic": "*"}
+    __mapper_args__ = {
+        "polymorphic_identity": "funcionario",
+        "polymorphic_on": cargo,
+        "with_polymorphic": "*",
+    }
+
+    def __init__(self, nome, cargo):
+        self.nome = nome
+        self.cargo = cargo
 
     def __repr__(self):
-        return f"<Funcionario {self.nome}>"
+        return f"<Funcionario {self.nome} - {self.cargo}>"
 
 
 class Doutor(Funcionario):
     __tablename__ = "doutor"
+
     id = db.Column(db.Integer, db.ForeignKey("funcionario.id"), primary_key=True)
     consultorio = db.Column(db.Integer)
 
-    __mapper_args__ = {
-        "polymorphic_identity": "doutor"  # Identificador único para a classe Doutor
-    }
+    __mapper_args__ = {"polymorphic_identity": "doutor"}
 
     def __init__(self, nome, consultorio):
-        super().__init__(nome)
+        super().__init__(nome, cargo="doutor")
         self.consultorio = consultorio
 
     def __repr__(self):
-        return f"<Doutor {self.nome}>"
+        return f"<Doutor {self.nome}, Consultório {self.consultorio}>"
 
 
 class Atendente(Funcionario):
     __tablename__ = "atendente"
+
     id = db.Column(db.Integer, db.ForeignKey("funcionario.id"), primary_key=True)
     setor = db.Column(db.String(50))
 
-    __mapper_args__ = {
-        "polymorphic_identity": "atendente"  # Identificador único para a classe Atendente
-    }
+    __mapper_args__ = {"polymorphic_identity": "atendente"}
 
     def __init__(self, nome, setor):
-        super().__init__(nome)
+        super().__init__(nome, cargo="atendente")
         self.setor = setor
 
     def __repr__(self):
-        return f"<Atendente {self.nome}>"
+        return f"<Atendente {self.nome}, Setor {self.setor}>"
