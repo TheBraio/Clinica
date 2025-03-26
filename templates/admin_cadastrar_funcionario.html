@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block head %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin_cadastrar_funcionario.css') }}">
+{% endblock %}
+
+{% block body %}
+    <span class="title">Cadastro de funcionário</span>
+    <form action="">
+        <div class="container1">
+            <span class="subtitle">Informações</span>
+
+            <label for="nome">Nome</label>
+            <input type="text" id='nome' class="gap">
+
+            <label for="CPF">CPF</label>
+            <input type="text" id='CPF' class="gap">
+
+            <label for="cargo">Cargo</label>
+            <select name="cargo" id="cargo">
+                <option value="doutor">Doutor</option>
+                <option value="atendente">Atendente</option>
+                <option value="none" disabled selected>------------</option>
+            </select>
+
+            <label for="admin">Admin</label>
+            <input type="checkbox" id='cargo' name="cargo" value='1'>
+        </div>
+    </form>
+{% endblock %}

@@ -1,43 +1,63 @@
-from extensions import app
-from flask import render_template
-from models import Paciente
+from extensions import app, db
+from flask import render_template, redirect
+from models import Paciente, Funcionario
 from views_recursos import *
 
 
 # Rotas do admin
-@app.route("/admin-funcionarios")
+@app.route("/admin/home")
+@logged
 @is_admin
 def admin_funcionarios():
-    return render_template_nav('admin_funcionarios.html')
+    funcionarios = Funcionario.query.all()
+    return render_template_nav('admin_funcionarios.html', funcionarios = funcionarios)
+
+@app.route('/admin/cadastrar-funcionario', methods=['GET'])
+@logged
+@is_admin
+def admin_cadastrar_funcionario():
+    return render_template_nav('admin_cadastrar_funcionario.html')
 # Rotas do admin
 
 
 # Rotas do atendente
-@app.route("/atendente-pacientes", methods=["GET"])
+@app.route("/atendente/home", methods=["GET"])
+@logged
+@is_atendente
 def atendente_pacientes():
     pacientes = Paciente.query.all()
     
-    return render_template_nav("atendente_pacientes.html", pacientes=pacientes, )
+    return render_template_nav("atendente_home.html", pacientes=pacientes)
 
-@app.route("/atendente-cadastrar-paciente")
+@app.route("/atendente/cadastrar-paciente")
+@logged
+@is_atendente
 def cadastrar():
     return render_template_nav("atendente_cadastrar_paciente.html")
 # Rotas do atendente
 
 
 # Rotas do doutor
-@app.route("/doutor-mainpage")
+@app.route("/doutor/home")
+@logged
+@is_doutor
 def doutor():
-    return render_template_nav("doutor_mainpage.html")
+    return render_template_nav("doutor_home.html")
 # Rotas do doutor 
 
 
 # Rotas Gerais
 @app.route('/login', methods=["GET"])
-@app.route('/', methods=["GET"])
 def login():
     return render_template_nav('login.html')
 
+@app.route('/', methods=["GET"])
+def home():
+    # db.session.add(Doutor(nome="admin", cpf='000', admin=True, consultorio=0))
+    # db.session.commit()
+    if 'privilegios' in session:
+        return redirect(f"/{session['privilegios'][0]}/home")
+    return redirect('/login')
 
 @app.route("/chamada")
 def chamada():

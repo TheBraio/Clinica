@@ -7,7 +7,6 @@
 {% block body %}
     <div class='head-page'>
         <h1>Pacientes</h1>
-        <button onclick="location.href = '/cadastrar'">Adicionar Paciente</button>
     </div>
     <div>
         <table>
@@ -22,14 +21,16 @@
             <tbody>
                 {% for paciente in pacientes %}
                     <tr>
-                        <td> {{ paciente.id }} </th>
-                        <td> {{ paciente.nome }} </th>
-                        <td> {{ paciente.descricao }} </th>
+                        <td> {{ paciente.id }} </td>
+                        <td> {{ paciente.nome }} </td>
+                        <td> {{ paciente.descricao }} </td>
                         <td>
                             <form action="/deletar/{{ paciente.id }}" method="POST" onsubmit="return confirm('Tem certeza que deseja excluir este paciente?')">
                                 <button class='icone' type="submit"> 
                                     <i class='fas fa-trash-alt' title="Deletar paciente." style="color: red;"></i>
                                 </button>
+                            </form>
+                            <form action="">
                                 <button class="icone">
                                     <i class="fa-solid fa-file" title="Adicionar paciente na fila." style="color:blueviolet"></i>
                                 </button>

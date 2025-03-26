@@ -7,18 +7,17 @@ from views import session
 
 @app.route("/login", methods=["POST"])
 def login_send():
-    nome = request.form['nome']
+    cpf = request.form['cpf']
     senha = request.form['senha']
     
-    if nome == 'admin':
-        session["nome"] = nome
-        return redirect("/admin-funcionarios")
-    if nome == 'atendente':
-        session['nome'] = nome
-        return redirect('/atendente-pacientes')
-    if nome == 'doutor':
-        session['nome'] = nome
-        return redirect('/doutor-mainpage')
+    funcionario = Funcionario.query.filter(Funcionario.cpf == cpf).first()
+
+    if funcionario:
+        if funcionario.check_password(senha):
+            session['privilegios'] = [
+                'admin', 'atendente', 'doutor' if funcionario.admin else funcionario.cargo
+            ]
+
     return redirect("/")
 
 
