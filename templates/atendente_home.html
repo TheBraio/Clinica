@@ -3,6 +3,18 @@
 {% block head %}
     <script src="https://kit.fontawesome.com/0d0e7ded81.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/atendente_pacientes.css') }}">
+
+    <script>
+        window.onload = function(){
+            {% with messages = get_flashed_messages(with_categories=True) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        alert("{{ message }}");  // Exibe a mensagem como alert
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+        }
+    </script>
 {% endblock %}
 {% block body %}
     <div class='head-page'>
@@ -14,6 +26,7 @@
                 <tr class='head-table'>
                     <th class="id"> ID </th>
                     <th> Nome </th>
+                    <th> CPF </th>
                     <th> Descrição </th>
                     <th> Ações </th>
                 </tr>
@@ -23,18 +36,21 @@
                     <tr>
                         <td> {{ paciente.id }} </td>
                         <td> {{ paciente.nome }} </td>
+                        <td> {{ paciente.cpf }}</td>
                         <td> {{ paciente.descricao }} </td>
                         <td>
-                            <form action="/deletar/{{ paciente.id }}" method="POST" onsubmit="return confirm('Tem certeza que deseja excluir este paciente?')">
-                                <button class='icone' type="submit"> 
-                                    <i class='fas fa-trash-alt' title="Deletar paciente." style="color: red;"></i>
-                                </button>
-                            </form>
-                            <form action="">
-                                <button class="icone">
-                                    <i class="fa-solid fa-file" title="Adicionar paciente na fila." style="color:blueviolet"></i>
-                                </button>
-                            </form>
+                            <div style="display:flex; flex-direction: row;">
+                                <form action="/crud/pacientes/deletar/{{ paciente.id }}" method="POST" onsubmit="return confirm('Tem certeza que deseja excluir este paciente?')">
+                                    <button class='icone' type="submit"> 
+                                        <i class='fas fa-trash-alt' title="Deletar paciente." style="color: red;"></i>
+                                    </button>
+                                </form>
+                                <form action="">
+                                    <button class="icone">
+                                        <i class="fa-solid fa-file" title="Adicionar paciente na fila." style="color:blueviolet"></i>
+                                    </button>
+                                </form>
+                            </div>
                         </td>
                     </tr>
                 {% endfor %}

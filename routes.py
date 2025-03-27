@@ -28,20 +28,6 @@ def login_send():
 ###
 ### CRUD PACIENTES
 ###
-
-
-@app.route("/crud/pacientes/", methods=["GET"])
-def pacientes():
-    pacientes = Paciente.query.all()
-
-    # Converter a lista de objetos Paciente para uma lista de dicionários
-    pacientes_json = [
-        {"id": p.id, "nome": p.nome, "descricao": p.descricao} for p in pacientes
-    ]
-
-    return jsonify(pacientes_json)
-
-
 @app.route("/crud/pacientes/", methods=["POST"])
 def paciente_cadastrar():
     if request.is_json:
@@ -50,29 +36,25 @@ def paciente_cadastrar():
         data = request.form
 
     nome = data.get("nome")  # Usa .get() para evitar erro se não existir
+    cpf = data.get("CPF")
     descricao = data.get("descricao")
 
-    if not nome:
-        return jsonify(
-            {"status": "error", "message": "O campo 'nome' é obrigatório."}
-        ), 400
+    
+    status = Status("Paciente cadastrado com sucesso!", 'sucess')
 
-    novo_paciente = Paciente(nome=nome, descricao=descricao)
+    if not nome or not cpf:
+        status.message = "Os campos Nome e CPF são obrigatórios."
+        status.category = "error"
+    else:
+        novo_paciente = Paciente(nome=nome, descricao=descricao, cpf = cpf)
 
-    db.session.add(novo_paciente)
-    db.session.commit()
+        db.session.add(novo_paciente)
+        db.session.commit()
+    
+    flash(status.message, status.category)
+    return redirect('/atendente/cadastrar-paciente')
 
-    return jsonify(
-        {
-            "status": "success",
-            "message": "Paciente adicionado.",
-            "paciente": {
-                "id": novo_paciente.id,
-                "nome": novo_paciente.nome,
-                "descricao": novo_paciente.descricao,
-            },
-        }
-    ), 200
+    
 
 
 @app.route("/crud/pacientes/deletar/<int:id>", methods=["POST"])
@@ -83,12 +65,10 @@ def paciente_deletar(id):
         db.session.delete(paciente)
         db.session.commit()
 
-    return jsonify(
-        {
-            "status": "success",
-            "message": "Paciente deletado.",
-        }
-    ), 200
+    status = Status("Paciente deletado com sucesso!", 'sucess')
+    flash(status.message, status.category)
+
+    return redirect('/atendente/home')
 
 
 ###

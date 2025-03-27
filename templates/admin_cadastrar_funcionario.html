@@ -3,6 +3,7 @@
 {% block head %}
     <link rel="stylesheet" href="{{ url_for('static', filename='css/admin_cadastrar_funcionario.css') }}">
     <script>
+
         window.onload = function(){
             {% with messages = get_flashed_messages(with_categories=True) %}
                 {% if messages %}

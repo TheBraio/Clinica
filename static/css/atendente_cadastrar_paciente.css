@@ -45,3 +45,9 @@ input {
     height: 2rem;
     width: 100%
 }
+
+button {
+    width: 80%;
+    height: 30px;
+    margin: 0 auto;
+}

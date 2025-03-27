@@ -53,8 +53,8 @@ def login():
 
 @app.route('/', methods=["GET"])
 def home():
-    db.session.add(Doutor(nome="admin", cpf='000', admin=True, consultorio=0))
-    db.session.commit()
+    # db.session.add(Doutor(nome="admin", cpf='000', admin=True, consultorio=0))
+    # db.session.commit()
     if 'privilegios' in session:
         return redirect(f"/{session['privilegios'][0]}/home")
     return redirect('/login')
