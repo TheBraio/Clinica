@@ -15,6 +15,7 @@
                     <th class="id"> ID </th>
                     <th> Nome </th>
                     <th> CPF </th>
+                    <th> Cargo </th>
                     <th> Admin </th>
                     <th> Ações </th>
                 </tr>
@@ -25,13 +26,14 @@
                         <td> {{ funcionario.id }} </td>
                         <td> {{ funcionario.nome }} </td>
                         <td> {{ funcionario.cpf }} </td>
+                        <td> {{ funcionario.cargo }}</td>
                         {% if funcionario.admin %}
                             <td> <i class="fa-solid fa-check" style="color:rgb(0, 173, 0)"></i> </td>
                         {% else %}
                             <td> <i class="fa-solid fa-xmark" style="color:red"></i> </td>
                         {% endif %}
                         <td>
-                            <form action="/deletar/{{ funcionario.id }}" method="POST" onsubmit="return confirm('Tem certeza que deseja excluir este funcionário?')">
+                            <form action="/crud/funcionarios/deletar/{{ funcionario.id }}" method="POST" onsubmit="return confirm('Tem certeza que deseja excluir este funcionário?')">
                                 <button class='icone' type="submit"> 
                                     <i class='fas fa-trash-alt' title="Deletar funcionário." style="color: red;"></i>
                                 </button>

@@ -1,6 +1,6 @@
 from extensions import app, db
 from flask import render_template, redirect
-from models import Paciente, Funcionario
+from models import Paciente, Doutor, Funcionario
 from views_recursos import *
 
 
@@ -53,8 +53,8 @@ def login():
 
 @app.route('/', methods=["GET"])
 def home():
-    # db.session.add(Doutor(nome="admin", cpf='000', admin=True, consultorio=0))
-    # db.session.commit()
+    db.session.add(Doutor(nome="admin", cpf='000', admin=True, consultorio=0))
+    db.session.commit()
     if 'privilegios' in session:
         return redirect(f"/{session['privilegios'][0]}/home")
     return redirect('/login')

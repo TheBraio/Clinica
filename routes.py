@@ -1,9 +1,13 @@
-from flask import request, redirect, jsonify
+from flask import request, redirect, jsonify, flash
 from extensions import app, db
 from models import Funcionario, Paciente, Doutor, Atendente
 
 from views import session
 
+class Status:
+    def __init__(self, message: str, category: str):
+        self.message = message
+        self.category = category
 
 @app.route("/login", methods=["POST"])
 def login_send():
@@ -95,101 +99,55 @@ def paciente_deletar(id):
 ###
 ### CRUD FUNCIONÁRIOS
 ###
-@app.route("/crud/funcionarios/", methods=["GET"])
-def funcionarios():
-    funcionarios = Funcionario.query.all()
-
-    return jsonify(
-        {
-            "status": "success",
-            "message": "Funcionários listados.",
-            "funcionarios": [
-                {
-                    "id": funcionario.id,
-                    "nome": funcionario.nome,
-                    "cargo": funcionario.cargo,
-                    **(
-                        {"consultorio": funcionario.consultorio}
-                        if funcionario.cargo == "doutor"
-                        else {}
-                    ),
-                    **(
-                        {"setor": funcionario.setor}
-                        if funcionario.cargo == "atendente"
-                        else {}
-                    ),
-                }
-                for funcionario in funcionarios
-            ],
-        }
-    ), 200
-
-
 @app.route("/crud/funcionarios/", methods=["POST"])
 def cadastrar_funcionario():
     data = request.get_json() if request.is_json else request.form
     nome = data.get("nome")
     cargo = data.get("cargo")
+    cpf = data.get('CPF')
+    admin = bool(data.get('admin'))
 
-    if not nome or not cargo:
-        return jsonify(
-            {
-                "status": "error",
-                "message": "Os campos 'nome' e 'cargo' são obrigatórios.",
-            }
-        ), 400
+    def verify():
+        status = Status(
+            "Funcionario adicionado com sucesso", 
+            'sucess'
+        )
+        if not nome or not cargo or not cpf:
+            status.message = 'Os campos Nome, Cargo e Cpf são obrigatórios!'
+            status.category = 'error'
+            return status
+        
+        if cargo == "doutor":
+            consultorio = data.get("consultorio")
+            if consultorio is None:
+                status.message = 'O campo Consultorio é obrigatório para cadastrar um doutor'
+                status.category = 'error'
+                return status
+            
+            novo_funcionario = Doutor(nome=nome, consultorio=consultorio, cpf = cpf, admin = admin)
 
-    if cargo == "doutor":
-        consultorio = data.get("consultorio")
-        if consultorio is None:
-            return jsonify(
-                {
-                    "status": "error",
-                    "message": "O campo 'consultorio' é obrigatório para doutor.",
-                }
-            ), 400
-        novo_funcionario = Doutor(nome=nome, consultorio=consultorio)
+        elif cargo == "atendente":
+            setor = data.get("setor")
+            if not setor:
+                status.message = 'O campo Setor é obrigatório para cadastrar um atendente.'
+                status.category = 'error'
+                return status
+            
+            novo_funcionario = Atendente(nome=nome, setor=setor, cpf = cpf, admin = admin)
 
-    elif cargo == "atendente":
-        setor = data.get("setor")
-        if not setor:
-            return jsonify(
-                {
-                    "status": "error",
-                    "message": "O campo 'setor' é obrigatório para atendente.",
-                }
-            ), 400
-        novo_funcionario = Atendente(nome=nome, setor=setor)
+        else:
+            status.message = 'Por favor forneça um cargo válido (doutor/atendente)'
+            status.category = 'error'
+            return status
 
-    else:
-        return jsonify(
-            {
-                "status": "error",
-                "message": "Por favor forneça um cargo válido (doutor/atendente).",
-            }
-        ), 400
+        db.session.add(novo_funcionario)
+        db.session.commit()
 
-    db.session.add(novo_funcionario)
-    db.session.commit()
+    status = verify()
+    flash(status.message, status.category)
 
-    funcionario_data = {
-        "id": novo_funcionario.id,
-        "nome": novo_funcionario.nome,
-        "cargo": novo_funcionario.cargo,
-    }
+    return redirect('/admin/cadastrar-funcionario')
 
-    if cargo == "doutor":
-        funcionario_data["consultorio"] = novo_funcionario.consultorio
-    elif cargo == "atendente":
-        funcionario_data["setor"] = novo_funcionario.setor
-
-    return jsonify(
-        {
-            "status": "success",
-            "message": "Funcionário adicionado.",
-            "funcionario": funcionario_data,
-        }
-    ), 200
 
 
 @app.route("/crud/funcionarios/deletar/<int:id>", methods=["POST"])
@@ -206,9 +164,5 @@ def deletar_funcionario(id):
     db.session.delete(funcionario)
     db.session.commit()
 
-    return jsonify(
-        {
-            "status": "success",
-            "message": "Funcionário deletado.",
-        }
-    ), 200
+
+    return redirect("/admin/home")

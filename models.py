@@ -72,9 +72,10 @@ class Atendente(Funcionario):
 
     __mapper_args__ = {"polymorphic_identity": "atendente"}
 
-    def __init__(self, nome, setor):
-        super().__init__(nome, cargo="atendente")
+    def __init__(self, nome, cpf, setor, admin=False):
+        super().__init__(nome=nome, cpf = cpf, cargo="atendente", admin = admin)
         self.setor = setor
+
 
     def __repr__(self):
         return f"<Atendente {self.nome}, Setor {self.setor}>"
