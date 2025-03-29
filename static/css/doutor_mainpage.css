@@ -32,3 +32,17 @@
     font-weight: bold;
     margin-bottom: 30px;
 }
+
+.block-pacientes {
+    max-width: 100%;
+    word-wrap: break-word;
+    white-space: normal;
+}
+
+li {
+    max-width: 100%;
+    word-wrap: break-word;
+    white-space: normal;
+
+}
+

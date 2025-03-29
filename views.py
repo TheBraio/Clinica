@@ -1,6 +1,6 @@
 from extensions import app, db
 from flask import render_template, redirect
-from models import Paciente, Doutor, Funcionario
+from models import Paciente, Funcionario, Doutor
 from views_recursos import *
 
 
@@ -42,7 +42,9 @@ def cadastrar():
 @logged
 @is_doutor
 def doutor():
-    return render_template_nav("doutor_home.html")
+    from websocket import fila_pacientes
+    fila_pacientes_list = [pac.nome for pac in fila_pacientes.queue]
+    return render_template_nav("doutor_home.html", fila=fila_pacientes_list)
 # Rotas do doutor 
 
 

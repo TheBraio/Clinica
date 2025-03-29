@@ -25,6 +25,11 @@ links : dict = {
 links['admin'] += links['atendente']
 links['admin'] += links['doutor']
 
+class Status:
+    def __init__(self, message: str, category: str):
+        self.message = message
+        self.category = category
+
 # Retornos de erro
 # 450 = não logado
 # 451 = não é admin
@@ -78,3 +83,4 @@ def is_atendente(func):
     return wrapper
 
 
+lista_pacientes: list = []

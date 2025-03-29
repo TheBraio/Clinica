@@ -1,13 +1,9 @@
 from flask import request, redirect, jsonify, flash
 from extensions import app, db
 from models import Funcionario, Paciente, Doutor, Atendente
-
+from views_recursos import Status
 from views import session
-
-class Status:
-    def __init__(self, message: str, category: str):
-        self.message = message
-        self.category = category
+from websocket import add_paciente, next_patient
 
 @app.route("/login", methods=["POST"])
 def login_send():
@@ -18,12 +14,12 @@ def login_send():
 
     if funcionario:
         if funcionario.check_password(senha):
-            session['privilegios'] = [
-                'admin', 'atendente', 'doutor' if funcionario.admin else funcionario.cargo
-            ]
+            session['privilegios'] = [ 'admin', 'atendente', 'doutor' ] if funcionario.admin else [funcionario.cargo]
+            if funcionario.cargo == 'doutor':
+                session['nome'] = funcionario.nome
+                session['consultorio'] = funcionario.consultorio
 
     return redirect("/")
-
 
 ###
 ### CRUD PACIENTES
@@ -54,9 +50,6 @@ def paciente_cadastrar():
     flash(status.message, status.category)
     return redirect('/atendente/cadastrar-paciente')
 
-    
-
-
 @app.route("/crud/pacientes/deletar/<int:id>", methods=["POST"])
 def paciente_deletar(id):
     paciente = Paciente.query.get(id)
@@ -69,12 +62,9 @@ def paciente_deletar(id):
     flash(status.message, status.category)
 
     return redirect('/atendente/home')
-
-
 ###
 ### CRUD PACIENTES
 ###
-
 
 ###
 ### CRUD FUNCIONÁRIOS
@@ -123,12 +113,12 @@ def cadastrar_funcionario():
         db.session.add(novo_funcionario)
         db.session.commit()
 
+        return status
+
     status = verify()
     flash(status.message, status.category)
 
     return redirect('/admin/cadastrar-funcionario')
-
-
 
 @app.route("/crud/funcionarios/deletar/<int:id>", methods=["POST"])
 def deletar_funcionario(id):
@@ -146,3 +136,7 @@ def deletar_funcionario(id):
 
 
     return redirect("/admin/home")
+
+###
+### CRUD FUNCIONARIOS
+###

@@ -24,6 +24,7 @@ body {
     width:30%;
     height: 100%;
     gap: 30px;
+    flex-wrap: wrap;
 }
 
 .block {
@@ -33,10 +34,37 @@ body {
     border:2px outset rgb(65,172,169);
     border-radius: 10px;
     background-color: rgb(65,172,169);
+    max-width: 100%;
+    white-space: nowrap;     /* Impede que o texto quebre */
+    overflow: hidden;        /* Esconde o excesso de texto */
+    text-overflow: ellipsis;
 }
 
 .text-center {
     text-align: center;
+}
+
+table {
+    width: 100%;
+    max-width: 100%;
+}
+
+.lastCallsHeader {
+    font-size: calc(0.8vh + 0.8vw);
+    width: 100%;
+    max-width:100%;
+    /* gap: 10px */
+}
+
+td {
+    text-align: center;
+}
+
+.lastCallsBody {
+    font-size: calc(0.7vh + 0.7vw);
+    width:  100%;
+    max-width:100%;
+    /* gap: 10px */
 }
 
 .title {
@@ -72,6 +100,11 @@ body {
     font-weight: 500;
     font-size: calc(3.5vh + 3.5vw);
 }
+
+.lastCalls {
+    align-items: flex-start;
+}
+
 
 .font-consultorio {
     font-size: calc(4.5vh + 4.5vw);

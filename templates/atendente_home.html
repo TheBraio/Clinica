@@ -3,19 +3,8 @@
 {% block head %}
     <script src="https://kit.fontawesome.com/0d0e7ded81.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/atendente_pacientes.css') }}">
-
-    <script>
-        window.onload = function(){
-            {% with messages = get_flashed_messages(with_categories=True) %}
-                {% if messages %}
-                    {% for category, message in messages %}
-                        alert("{{ message }}");  // Exibe a mensagem como alert
-                    {% endfor %}
-                {% endif %}
-            {% endwith %}
-        }
-    </script>
 {% endblock %}
+
 {% block body %}
     <div class='head-page'>
         <h1>Pacientes</h1>
@@ -45,7 +34,7 @@
                                         <i class='fas fa-trash-alt' title="Deletar paciente." style="color: red;"></i>
                                     </button>
                                 </form>
-                                <form action="">
+                                <form action="/add_paciente/{{ paciente.id }}" method="POST" onsubmit="return confirm('Tem certeza que deseja adicionar este paciente a fila?')">
                                     <button class="icone">
                                         <i class="fa-solid fa-file" title="Adicionar paciente na fila." style="color:blueviolet"></i>
                                     </button>
