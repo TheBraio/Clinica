@@ -20,7 +20,7 @@ links : dict = {
     'doutor': [
         Link('/doutor/home', 'fa-solid fa-user-doctor', 'Área do Doutor')
     ],
-    '': [Link('/login', "fa-solid fa-arrow-right-to-bracket fa-spin", "Logar")]
+    '': [Link('/login', "fa-solid fa-arrow-right-to-bracket", "Logar")]
 }
 
 links['admin'] += links['atendente']
