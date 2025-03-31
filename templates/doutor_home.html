@@ -7,14 +7,16 @@
 {% endblock %}
 
 {% block body %}
-    <div class="title">Área de {Nome da pessoa aq}</div>
+    <div class="title">Área do Doutor</div>
     <div class="container">
         <div class="block">
             <span class="subtitles text-fila">Fila de Pacientes</span>
             <div class="block-pacientes" id = 'fila_pacientes'>
+                <ol>
                 {% for paciente in fila %}
                     <li>{{ paciente }}</li>
                 {% endfor %}
+                </ol>
             </div>
         </div>
         <div class="block">

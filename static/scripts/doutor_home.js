@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", function () {
     let block = document.getElementById('fila_pacientes')
 
     block.innerHTML = fila.map(nome => `
-      <li>${nome}</li>
+      <li style='word-wrap: break-word; overflow-wrap: break-word;'>${nome}</li>
     `).join('');
   })
 });

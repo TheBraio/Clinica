@@ -21,6 +21,10 @@ def login_send():
 
     return redirect("/")
 
+@app.route('/desconectar')
+def desconectar():
+    session.clear()
+    return redirect('/login')
 ###
 ### CRUD PACIENTES
 ###

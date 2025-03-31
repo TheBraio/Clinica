@@ -35,7 +35,6 @@ body {
     border-radius: 10px;
     background-color: rgb(65,172,169);
     max-width: 100%;
-    white-space: nowrap;     /* Impede que o texto quebre */
     overflow: hidden;        /* Esconde o excesso de texto */
     text-overflow: ellipsis;
 }
@@ -47,6 +46,7 @@ body {
 table {
     width: 100%;
     max-width: 100%;
+    table-layout: fixed;
 }
 
 .lastCallsHeader {
@@ -117,4 +117,17 @@ td {
     gap: 30px;
     grid-template-rows: 2fr 1fr;
     flex-wrap: wrap;
+}
+
+.break-text {
+    max-width: 100%;
+    max-height: 100%;
+    word-wrap: break-word;
+}
+
+th, td {
+    max-width: 50%;
+    word-wrap: break-word;
+    text-align: center;
+    height:80%;
 }

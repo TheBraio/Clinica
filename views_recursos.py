@@ -7,6 +7,7 @@ class Link:
         self.icone = icone
         self.texto = texto
 
+desloga = Link('/deslogar', '', 'Desconectar')
 links : dict = {
     'admin': [
         Link("/admin/home", "fa-solid fa-user-tie", "Funcionários"),
