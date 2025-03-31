@@ -117,8 +117,6 @@ def cadastrar_funcionario():
 
         db.session.add(novo_funcionario)
         db.session.commit()
-
-
         return status
 
     status = verify()
