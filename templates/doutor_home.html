@@ -11,8 +11,8 @@
     <div class="container">
         <div class="block">
             <span class="subtitles text-fila">Fila de Pacientes</span>
-            <div class="block-pacientes" id = 'fila_pacientes'>
-                <ol>
+            <div class="block-pacientes" >
+                <ol id = 'fila_pacientes'>
                 {% for paciente in fila %}
                     <li>{{ paciente }}</li>
                 {% endfor %}
@@ -22,13 +22,16 @@
         <div class="block">
             <span class="subtitles text-paciente">Paciente</span>
             <div class="block-paciente">
-
+                <label class='nomeLabel' for="">Nome</label>
+                <span id="nomeSpan" >{{ paciente.nome if paciente else ''}}</span>
+                <label class="descricaoLabel" for="">Descrição</label>
+                <span id="descricaoSpan">{{ paciente.descricao if paciente else '' }}</span>
             </div>
         </div>
         <div class="block">
             <span class="subtitles text-acoes">Ações</span>
-            <form action="/next_patient" method="POST">
-                <button>Próximo Paciente</button>
+            <form action="/next_patient" method="POST" style="height: 100%">
+                <button class="proxPaciente">Próximo Paciente</button>
             </form>
         </div>
     </div>

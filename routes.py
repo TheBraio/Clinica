@@ -99,6 +99,7 @@ def cadastrar_funcionario():
                 return status
             
             novo_funcionario = Doutor(nome=nome, consultorio=consultorio, cpf = cpf, admin = admin)
+                
 
         elif cargo == "atendente":
             setor = data.get("setor")
@@ -108,14 +109,15 @@ def cadastrar_funcionario():
                 return status
             
             novo_funcionario = Atendente(nome=nome, setor=setor, cpf = cpf, admin = admin)
-
         else:
             status.message = 'Por favor forneça um cargo válido (doutor/atendente)'
             status.category = 'error'
             return status
 
+
         db.session.add(novo_funcionario)
         db.session.commit()
+
 
         return status
 

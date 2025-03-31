@@ -67,6 +67,7 @@ def next_patient():
                 'chamadas': ultimos_chamados_list
             }
         )
+        session['paciente'] = {'nome': paciente_atual[0].nome, 'descricao': paciente_atual[0].descricao}
         return redirect('/doutor/home')
     else:
         return jsonify({"status": "error", "message": "Fila vazia"}), 404

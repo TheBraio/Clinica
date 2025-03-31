@@ -44,7 +44,7 @@ def cadastrar():
 def doutor():
     from websocket import fila_pacientes
     fila_pacientes_list = [pac.nome for pac in fila_pacientes.queue]
-    return render_template_nav("doutor_home.html", fila=fila_pacientes_list)
+    return render_template_nav("doutor_home.html", fila=fila_pacientes_list, paciente=session['paciente'] if 'paciente' in session else False)
 # Rotas do doutor 
 
 

@@ -18,10 +18,12 @@
 .block {
     display:flex;
     flex-direction: column;
-    border: 2px solid;
+    border: 3px ridge aliceblue;
+    border-radius: 10px;
     padding-left: 20px;
     padding-right: 20px;
     max-height: 100%;
+    background-color: rgb(240, 237, 237);
 }
 
 .title {
@@ -47,6 +49,33 @@
     white-space: normal;
 }
 
+.block-paciente {
+    display: flex;
+    flex-direction: column;
+}
+
+#nomeSpan {
+    height:2.5rem;
+    border: 2px inset black;
+    border-radius: 10px;
+    margin-bottom: 50px;
+    padding: 10px;
+}
+
+.nomeLabel {
+    font-size: 1.2rem;
+}
+
+#descricaoSpan {
+    height:10rem;
+    border: 2px inset black;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.descricaoLabel {
+    font-size: 1.2rem;
+}
 
 li {
     word-wrap: break-word;
@@ -56,4 +85,11 @@ li {
 ol {
     max-height: 100%;
     overflow: auto;
+}
+
+.proxPaciente {
+    width: 100%;
+    height: 10%;
+    border-radius: 5px;
+    cursor: pointer;
 }
