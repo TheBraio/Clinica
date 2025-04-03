@@ -1,5 +1,5 @@
 from extensions import app, db
-from flask import render_template, redirect
+from flask import render_template, redirect, session
 from models import Paciente, Funcionario, Doutor
 from views_recursos import *
 
@@ -33,7 +33,8 @@ def atendente_pacientes():
 @logged
 @is_atendente
 def cadastrar():
-    return render_template_nav("atendente_cadastrar_paciente.html")
+    doutores = Doutor.query.all()
+    return render_template_nav("atendente_cadastrar_paciente.html", doutores = doutores)
 # Rotas do atendente
 
 
@@ -42,9 +43,13 @@ def cadastrar():
 @logged
 @is_doutor
 def doutor():
-    from websocket import fila_pacientes
-    fila_pacientes_list = [pac.nome for pac in fila_pacientes.queue]
-    return render_template_nav("doutor_home.html", fila=fila_pacientes_list, paciente=session['paciente'] if 'paciente' in session else False)
+    from websocket import fila_pacientes, Queue
+    if fila_pacientes.get(session['id']):
+        fila_pacientes_list = [pac.nome for pac in fila_pacientes[session['id']].queue]
+    else:
+        fila_pacientes[session['id']] = Queue()
+        fila_pacientes_list = []
+    return render_template_nav("doutor_home.html", fila=fila_pacientes_list, paciente=session['paciente'] if 'paciente' in session else False, doutorID = session['id'])
 # Rotas do doutor 
 
 

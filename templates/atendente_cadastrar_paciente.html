@@ -19,6 +19,13 @@
             <label for="desc">Descrição</label>
             <input type="text" id='desc' name='descricao' class="gap" required>
 
+            <label for="doutor">Doutor Responsável</label>
+            <select class="gap" name="doutor" id="doutor" required>
+                {% for doutor in doutores %}
+                    <option value={{doutor.id}}>{{doutor.nome}}</option>
+                {% endfor %}
+                <option value="none" disabled selected>------------</option>
+            </select>
             <!-- <span class="subtitle">Consulta</span>
 
             <div class="container-consulta">

@@ -1,49 +1,57 @@
 from queue import Queue
 from extensions import socketio, app
-from flask import jsonify, flash, redirect, session
+from flask import jsonify, flash, redirect, session, request
 from models import Paciente
 from views_recursos import Status
 from collections import deque
 
-fila_pacientes: Queue[Paciente] = Queue()
+fila_pacientes: dict[int, Queue[Paciente]] = {}
 ultimos_chamados: deque[Paciente] = deque(maxlen=5)
 paciente_atual: Paciente | None = None
+socketDoutor: dict[int, str] = {}
 
 @socketio.on("connect")
 def handle_connect():
-    print("Cliente conectado")
-    socketio.emit(
-        "handshake",
-        {
-            "message": "Conexão estabelecida",
-            "paciente": {"id": paciente_atual[0].id, "nome": paciente_atual[0].nome}
-            if paciente_atual
-            else None,
-        },
-    )
+    print("Cliente conectado: ", request.sid)
+    
+@socketio.on("doutorConnect")
+def doutorConnect(data):
+    doutorID = int(data)
+    if not fila_pacientes.get(doutorID):
+        fila_pacientes[doutorID] = Queue()
+    socketDoutor[doutorID] = request.sid
 
 
 @socketio.on("disconnect")
 def handle_disconnect():
-    print("Cliente desconectado")
-
+    for id, sid in socketDoutor.items():
+        if sid == request.sid:
+            del socketDoutor[id]
+            print('Removido')
+            break
 
 @app.route("/add_paciente/<int:id>", methods=["POST"])
 def add_paciente(id):
     paciente = Paciente.query.get(id)
-
+    doutor = paciente.doutor
     status = Status("Paciente adicionado na fila com sucesso!", 'sucess')
 
-    
     if paciente:
-        fila_pacientes.put(paciente)
-        fila_pacientes_list = [pac.nome for pac in fila_pacientes.queue]
-        socketio.emit(
-            "queue_updated",
-            fila_pacientes_list,
-        )
+        if fila_pacientes.get(doutor):
+            fila_pacientes[doutor].put(paciente)
+            fila_pacientes_list = [pac.nome for pac in fila_pacientes[doutor].queue]
+            try:
+                socketio.emit(
+                    "queue_updated",
+                    fila_pacientes_list,to=socketDoutor[doutor]
+                )
+            except:
+                pass
+        else:
+            status.message = "ERROR: Doutor não está logado"
+            status.category = "error"
     else:
-        status.message = "Paciente não encontrado!"
+        status.message = "ERROR: Paciente não encontrado!"
         status.category = "error"
     
     flash(status.message, status.category)
@@ -51,14 +59,14 @@ def add_paciente(id):
     return redirect('/atendente/home')
 
 
-@app.route("/next_patient", methods=["POST"])
-def next_patient():
-    if not fila_pacientes.empty():
+@app.route("/next_patient/<int:id>", methods=["POST"])
+def next_patient(id):
+    if not fila_pacientes[id].empty():
         global paciente_atual
         if paciente_atual:
             ultimos_chamados.append(paciente_atual)
         ultimos_chamados_list = [{'nome':chamado.nome, 'consultorio':consultorio} for chamado, consultorio in ultimos_chamados]
-        paciente_atual = (fila_pacientes.get(), session['consultorio'])
+        paciente_atual = (fila_pacientes[id].get(), session['consultorio'])
         socketio.emit(
             "next_patient", {
                 "paciente": paciente_atual[0].nome, 

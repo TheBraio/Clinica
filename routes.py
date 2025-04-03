@@ -4,6 +4,7 @@ from models import Funcionario, Paciente, Doutor, Atendente
 from views_recursos import Status
 from views import session
 from websocket import add_paciente, next_patient
+from sqlalchemy.exc import IntegrityError
 
 @app.route("/login", methods=["POST"])
 def login_send():
@@ -18,6 +19,7 @@ def login_send():
             if funcionario.cargo == 'doutor':
                 session['nome'] = funcionario.nome
                 session['consultorio'] = funcionario.consultorio
+                session['id'] = funcionario.id
 
     return redirect("/")
 
@@ -38,18 +40,23 @@ def paciente_cadastrar():
     nome = data.get("nome")  # Usa .get() para evitar erro se não existir
     cpf = data.get("CPF")
     descricao = data.get("descricao")
-
+    doutorId = data.get('doutor')
     
-    status = Status("Paciente cadastrado com sucesso!", 'sucess')
+    status = Status("SUCESSO: Paciente cadastrado com sucesso!", 'sucess')
 
     if not nome or not cpf:
-        status.message = "Os campos Nome e CPF são obrigatórios."
+        status.message = "ERROR: Os campos Nome e CPF são obrigatórios."
         status.category = "error"
     else:
-        novo_paciente = Paciente(nome=nome, descricao=descricao, cpf = cpf)
+        novo_paciente = Paciente(nome=nome, descricao=descricao, cpf = cpf, doutor = doutorId)
 
-        db.session.add(novo_paciente)
-        db.session.commit()
+        try:
+            db.session.add(novo_paciente)
+            db.session.commit()
+        except IntegrityError:
+            db.session.rollback()
+            status.message = "ERROR: Um paciente com esse CPF já está cadastrado."
+            status.category = 'error'
     
     flash(status.message, status.category)
     return redirect('/atendente/cadastrar-paciente')
@@ -62,7 +69,7 @@ def paciente_deletar(id):
         db.session.delete(paciente)
         db.session.commit()
 
-    status = Status("Paciente deletado com sucesso!", 'sucess')
+    status = Status("SUCESSO: Paciente deletado com sucesso!", 'sucess')
     flash(status.message, status.category)
 
     return redirect('/atendente/home')
@@ -83,18 +90,18 @@ def cadastrar_funcionario():
 
     def verify():
         status = Status(
-            "Funcionario adicionado com sucesso", 
+            "SUCESSO: Funcionario adicionado com sucesso", 
             'sucess'
         )
         if not nome or not cargo or not cpf:
-            status.message = 'Os campos Nome, Cargo e Cpf são obrigatórios!'
+            status.message = 'ERROR: Os campos Nome, Cargo e Cpf são obrigatórios!'
             status.category = 'error'
             return status
         
         if cargo == "doutor":
             consultorio = data.get("consultorio")
             if consultorio is None:
-                status.message = 'O campo Consultorio é obrigatório para cadastrar um doutor'
+                status.message = 'ERROR: O campo Consultorio é obrigatório para cadastrar um doutor'
                 status.category = 'error'
                 return status
             
@@ -104,19 +111,24 @@ def cadastrar_funcionario():
         elif cargo == "atendente":
             setor = data.get("setor")
             if not setor:
-                status.message = 'O campo Setor é obrigatório para cadastrar um atendente.'
+                status.message = 'ERROR: O campo Setor é obrigatório para cadastrar um atendente.'
                 status.category = 'error'
                 return status
             
             novo_funcionario = Atendente(nome=nome, setor=setor, cpf = cpf, admin = admin)
         else:
-            status.message = 'Por favor forneça um cargo válido (doutor/atendente)'
+            status.message = 'ERROR: Por favor forneça um cargo válido (doutor/atendente)'
             status.category = 'error'
             return status
 
+        try:
+            db.session.add(novo_funcionario)
+            db.session.commit()
+        except IntegrityError:
+            db.session.rollback()
+            status.message = "ERROR: Um funcionário com esse CPF já está cadastrado."
+            status.category = 'error'
 
-        db.session.add(novo_funcionario)
-        db.session.commit()
         return status
 
     status = verify()

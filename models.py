@@ -1,21 +1,7 @@
 from extensions import db
 from werkzeug.security import generate_password_hash, check_password_hash
 
-class Paciente(db.Model):
-    __tablename__ = "paciente"
 
-    id = db.Column(db.Integer, primary_key=True)
-    nome = db.Column(db.String(50), nullable=False)
-    descricao = db.Column(db.String(100))
-    cpf = db.Column(db.String(11), unique=True)
-
-    def __init__(self, nome, descricao, cpf):
-        self.nome = nome
-        self.descricao = descricao
-        self.cpf = cpf
-
-    def __repr__(self):
-        return f"<Paciente {self.nome}>"
 
 
 class Funcionario(db.Model):
@@ -58,6 +44,8 @@ class Doutor(Funcionario):
 
     __mapper_args__ = {"polymorphic_identity": "doutor"}
 
+    pacientes = db.relationship('Paciente', backref='responsavel', lazy=True)
+
     def __init__(self, nome, cpf, consultorio, admin=False):
         super().__init__(nome=nome, cargo="doutor", cpf=cpf, admin=admin)
         self.consultorio = consultorio
@@ -81,3 +69,21 @@ class Atendente(Funcionario):
 
     def __repr__(self):
         return f"<Atendente {self.nome}, Setor {self.setor}>"
+
+class Paciente(db.Model):
+    __tablename__ = "paciente"
+
+    id = db.Column(db.Integer, primary_key=True)
+    nome = db.Column(db.String(50), nullable=False)
+    descricao = db.Column(db.String(100))
+    cpf = db.Column(db.String(11), unique=True)
+
+    doutor = db.Column(db.Integer, db.ForeignKey('doutor.id'))
+    def __init__(self, nome, descricao, cpf, doutor):
+        self.nome = nome
+        self.descricao = descricao
+        self.cpf = cpf
+        self.doutor = doutor
+
+    def __repr__(self):
+        return f"<Paciente {self.nome}>"

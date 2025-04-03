@@ -39,7 +39,7 @@ form {
     gap: 10%
 }
 
-input {
+input, select {
     border: 2px ridge rgba(0, 0, 0, 0.226);
     border-radius: 5px;
     height: 2rem;
