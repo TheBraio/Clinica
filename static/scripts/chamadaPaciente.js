@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("lastCalls").innerHTML = data.chamadas.map(chamada => `
       <tr> 
         <td> ${chamada.consultorio} </td>
-        <td> ${chamada.nome} </td>
+        <td class='line-break'> ${chamada.nome} </td>
       </tr>
     `).join('');
     document.getElementById("namePatient").innerText = data.paciente;

@@ -47,7 +47,6 @@ def doutor():
     if fila_pacientes.get(session['id']):
         fila_pacientes_list = [pac.nome for pac in fila_pacientes[session['id']].queue]
     else:
-        fila_pacientes[session['id']] = Queue()
         fila_pacientes_list = []
     return render_template_nav("doutor_home.html", fila=fila_pacientes_list, paciente=session['paciente'] if 'paciente' in session else False, doutorID = session['id'])
 # Rotas do doutor 
@@ -69,4 +68,8 @@ def home():
 @app.route("/chamada")
 def chamada():
     return render_template("chamadaPaciente.html")
+
+@app.route('/trocar-senha', methods=['GET'])
+def trocar_senha():
+    return render_template_nav('troca-senha.html')
 # Rotas Gerais

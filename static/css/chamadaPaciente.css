@@ -47,10 +47,12 @@ table {
     width: 100%;
     max-width: 100%;
     table-layout: fixed;
+    border-collapse: collapse;
+    flex: 1;
 }
 
 .lastCallsHeader {
-    font-size: calc(0.8vh + 0.8vw);
+    font-size: calc(1.25vh + 1.25vw);
     width: 100%;
     max-width:100%;
     /* gap: 10px */
@@ -60,11 +62,27 @@ td {
     text-align: center;
 }
 
+td.line-break {
+    display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 1em;
+    max-height: calc(1em* 2);
+    word-break: break-word;
+    white-space: normal;
+}
+
 .lastCallsBody {
-    font-size: calc(0.7vh + 0.7vw);
+    font-size: calc(1.2vh + 1.2vw);
     width:  100%;
     max-width:100%;
     /* gap: 10px */
+    white-space: nowrap;
+    overflow: hidden;
+    word-break:break-word;
+    text-overflow: ellipsis;
 }
 
 .title {
@@ -102,6 +120,8 @@ td {
 }
 
 .lastCalls {
+    display:flex;
+    /* flex-direction: column; */
     align-items: flex-start;
 }
 
@@ -125,7 +145,7 @@ td {
     word-wrap: break-word;
 }
 
-th, td {
+th {
     max-width: 50%;
     word-wrap: break-word;
     text-align: center;

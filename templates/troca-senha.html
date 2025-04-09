@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/troca-senha.css')}}">
+{% endblock %}
+
+{% block body %}
+
+    <form action="/trocar-senha-enviar" method="POST" class="container-login">
+        <span class="text-login">Trocar Senha</span>
+        <label for="cpf">Senha Atual</label>
+        <input type="text" name="senhaAntiga" required>
+        <label for="senha">Nova Senha</label>
+        <input type="password" name="novaSenha" required>
+        <label for="senha">Repita a Nova Senha</label>
+        <input type="password" name="novaSenha2" required>
+        <button type="submit">Enviar</button>
+    </form>
+{% endblock %}

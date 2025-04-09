@@ -6,7 +6,7 @@ from views_recursos import Status
 from collections import deque
 
 fila_pacientes: dict[int, Queue[Paciente]] = {}
-ultimos_chamados: deque[Paciente] = deque(maxlen=5)
+ultimos_chamados: deque[Paciente] = deque(maxlen=2)
 paciente_atual: Paciente | None = None
 socketDoutor: dict[int, str] = {}
 
@@ -37,19 +37,19 @@ def add_paciente(id):
     status = Status("Paciente adicionado na fila com sucesso!", 'sucess')
 
     if paciente:
-        if fila_pacientes.get(doutor):
-            fila_pacientes[doutor].put(paciente)
-            fila_pacientes_list = [pac.nome for pac in fila_pacientes[doutor].queue]
-            try:
-                socketio.emit(
-                    "queue_updated",
-                    fila_pacientes_list,to=socketDoutor[doutor]
-                )
-            except:
-                pass
-        else:
-            status.message = "ERROR: Doutor não está logado"
-            status.category = "error"
+        if not fila_pacientes.get(doutor):
+            fila_pacientes[doutor] = Queue()
+            
+        fila_pacientes[doutor].put(paciente)
+        fila_pacientes_list = [pac.nome for pac in fila_pacientes[doutor].queue]
+        try:
+            socketio.emit(
+                "queue_updated",
+                fila_pacientes_list,to=socketDoutor[doutor]
+            )
+        except:
+            pass
+            
     else:
         status.message = "ERROR: Paciente não encontrado!"
         status.category = "error"

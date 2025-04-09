@@ -7,18 +7,17 @@ class Link:
         self.icone = icone
         self.texto = texto
 
-desloga = Link('/deslogar', '', 'Desconectar')
 links : dict = {
     'admin': [
         Link("/admin/home", "fa-solid fa-user-tie", "Funcionários"),
-        Link("/admin/cadastrar-funcionario", "fa-solid fa-user-plus", "Cadastrar Funcionário")
+        Link("/admin/cadastrar-funcionario", "fa-solid fa-user-plus", "Cadastrar Funcionário"),
     ],
     'atendente': [
         Link('/atendente/home', 'fa-solid fa-user', 'Pacientes'),
         Link('/atendente/cadastrar-paciente', 'fa-solid fa-user-plus', 'Cadastrar Pacientes'),
     ],
     'doutor': [
-        Link('/doutor/home', 'fa-solid fa-user-doctor', 'Área do Doutor')
+        Link('/doutor/home', 'fa-solid fa-user-doctor', 'Área do Doutor'),
     ],
     '': [Link('/login', "fa-solid fa-arrow-right-to-bracket", "Logar")]
 }
