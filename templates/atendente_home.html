@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block head %}
+    <script src="https://kit.fontawesome.com/0d0e7ded81.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/atendente_pacientes.css') }}">
+{% endblock %}
+
+{% block body %}
+    <div class='head-page'>
+        <h1>Pacientes</h1>
+    </div>
+    <div>
+        <table>
+            <thead>
+                <tr class='head-table'>
+                    <th class="id"> ID </th>
+                    <th> Nome </th>
+                    <th> CPF </th>
+                    <th> Descrição </th>
+                    <th> Doutor </th>
+                    <th> Ações </th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for paciente in pacientes %}
+                    <tr>
+                        <td> {{ paciente.id }} </td>
+                        <td> {{ paciente.nome }} </td>
+                        <td> {{ paciente.cpf }}</td>
+                        <td> {{ paciente.descricao }} </td>
+                        <td> {{ paciente.responsavel.nome }}</td>
+                        <td>
+                            <div style="display:flex; flex-direction: row;">
+                                <form action="/crud/pacientes/deletar/{{ paciente.id }}" method="POST" onsubmit="return confirm('Tem certeza que deseja excluir este paciente?')">
+                                    <button class='icone' type="submit"> 
+                                        <i class='fas fa-trash-alt' title="Deletar paciente." style="color: red;"></i>
+                                    </button>
+                                </form>
+                                <form action="/add_paciente/{{ paciente.id }}" method="POST" onsubmit="return confirm('Tem certeza que deseja adicionar este paciente a fila?')">
+                                    <button class="icone">
+                                        <i class="fa-solid fa-file" title="Adicionar paciente na fila." style="color:blueviolet"></i>
+                                    </button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

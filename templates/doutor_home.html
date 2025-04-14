@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block head %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js" integrity="sha512-q/dWJ3kcmjBLU4Qc47E4A9kTB4m3wuTY7vkFJDTZKjTs8jhyGQnaUrxa0Ytd0ssMZhbNua9hE+E7Qv1j+DyZwA==" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/doutor_mainpage.css') }}">
+    <script src="{{ url_for('static', filename='scripts/doutor_home.js') }}"> </script>
+{% endblock %}
+
+{% block body %}
+    <div doutorID="{{ doutorID }}" id="doutor" class="title">Área do Doutor</div>
+    <div class="container">
+        <div class="block">
+            <span class="subtitles text-fila">Fila de Pacientes</span>
+            <div class="block-pacientes" >
+                <ol id = 'fila_pacientes'>
+                {% for paciente in fila %}
+                    <li>{{ paciente }}</li>
+                {% endfor %}
+                </ol>
+            </div>
+        </div>
+        <div class="block">
+            <span class="subtitles text-paciente">Paciente</span>
+            <div class="block-paciente">
+                <label class='nomeLabel' for="">Nome</label>
+                <span id="nomeSpan" >{{ paciente.nome if paciente else ''}}</span>
+                <label class="descricaoLabel" for="">Descrição</label>
+                <span id="descricaoSpan">{{ paciente.descricao if paciente else '' }}</span>
+            </div>
+        </div>
+        <div class="block">
+            <span class="subtitles text-acoes">Ações</span>
+            <form action="/next_patient/{{ doutorID }}" method="POST" style="height: 100%">
+                <button class="proxPaciente">Próximo Paciente</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}

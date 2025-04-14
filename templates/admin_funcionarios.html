@@ -1,9 +1,47 @@
 {% extends 'base.html' %}
 
 {% block head %}
-
+    <script src="https://kit.fontawesome.com/0d0e7ded81.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/atendente_pacientes.css') }}">
 {% endblock %}
-
 {% block body %}
-    admin funcionarios
+    <div class='head-page'>
+        <h1>Funcionários</h1>
+    </div>
+    <div>
+        <table>
+            <thead>
+                <tr class='head-table'>
+                    <th class="id"> ID </th>
+                    <th> Nome </th>
+                    <th> CPF </th>
+                    <th> Cargo </th>
+                    <th> Admin </th>
+                    <th> Ações </th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for funcionario in funcionarios %}
+                    <tr>
+                        <td> {{ funcionario.id }} </td>
+                        <td> {{ funcionario.nome }} </td>
+                        <td> {{ funcionario.cpf }} </td>
+                        <td> {{ funcionario.cargo }}</td>
+                        {% if funcionario.admin %}
+                            <td> <i class="fa-solid fa-check" style="color:rgb(0, 173, 0)"></i> </td>
+                        {% else %}
+                            <td> <i class="fa-solid fa-xmark" style="color:red"></i> </td>
+                        {% endif %}
+                        <td>
+                            <form action="/crud/funcionarios/deletar/{{ funcionario.id }}" method="POST" onsubmit="return confirm('Tem certeza que deseja excluir este funcionário?')">
+                                <button class='icone' type="submit"> 
+                                    <i class='fas fa-trash-alt' title="Deletar funcionário." style="color: red;"></i>
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 {% endblock %}

@@ -5,18 +5,16 @@ document.addEventListener("DOMContentLoaded", function () {
     console.log("Conectado ao servidor WebSocket.");
   });
 
-  socket.on("handshake", function (data) {
-    console.log("Handshake:", data);
-    if (data.paciente) {
-      document.getElementById("namePatient").innerText = data.nome;
-    } else {
-      document.getElementById("namePatient").innerText = "Não definido.";
-    }
-  });
-
   socket.on("next_patient", function (data) {
     console.log("Atualizou", data);
-    document.getElementById("lastCalls").innerText = document.getElementById("namePatient").innerText;
-    document.getElementById("namePatient").innerText = data.nome;
+    document.getElementById("lastCalls").innerHTML = data.chamadas.map(chamada => `
+      <tr> 
+        <td> ${chamada.consultorio} </td>
+        <td class='line-break'> ${chamada.nome} </td>
+      </tr>
+    `).join('');
+    document.getElementById("namePatient").innerText = data.paciente;
+    document.getElementById('nameProfissional').innerText = data.doutor;
+    document.getElementById('consultorio').innerText = data.consultorio;
   });
 });

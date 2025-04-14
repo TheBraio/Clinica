@@ -1,0 +1,15 @@
+document.addEventListener("DOMContentLoaded", function () {
+  const socket = io("http://localhost:5000");
+
+  socket.on("connect", function () {
+    let doutorID = document.getElementById("doutor").getAttribute("doutorID");
+    socket.emit("doutorConnect", doutorID);
+  });
+  socket.on('queue_updated', function (fila) {
+    let block = document.getElementById('fila_pacientes');
+
+    block.innerHTML = fila.map(nome => `
+      <li style='word-wrap: break-word; overflow-wrap: break-word;'>${nome}</li>
+    `).join('');
+  })
+});

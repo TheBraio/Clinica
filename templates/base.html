@@ -3,10 +3,22 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Document</title>
+        <link rel="icon" href="{{ url_for('static', filename='img/icone.ico') }}" type="image/x-icon">
+        <title>Family Dental Clinic</title>
         <script src="https://kit.fontawesome.com/0d0e7ded81.js" crossorigin="anonymous"></script>
         <link rel="stylesheet" href="{{ url_for('static', filename='css/navbar.css') }}">
 
+        <script>
+            window.onload = function(){
+                {% with messages = get_flashed_messages(with_categories=True) %}
+                    {% if messages %}
+                        {% for category, message in messages %}
+                            alert("{{ message }}");  // Exibe a mensagem como alert
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+            }
+        </script>
         {% block head %}
         {% endblock %}
     </head>
@@ -14,11 +26,13 @@
         <nav class="nav">
             <img src="{{ url_for('static', filename='img/logo.png')}}" alt="">
             {% for link in links %}
-                <!-- <a href="{{href}}"><i class="{{ icone }}"></i></i>{{ text }}</a> -->
-                <!-- <a href="/doutor"><i class="fa-solid fa-user-doctor"></i>Doutor</a> -->
                 <a href="{{ link.rota }}"><i class="{{ link.icone }}"></i>{{ link.texto }}</a>
             {% endfor %}
             <a href="/chamada"><i class="fa-solid fa-bell"></i>Chamada de Pacientes</a>
+            <a href="/desconectar"><i class="fa-solid fa-door-open"></i>Desconectar</a>
+            {% if links|length > 1 %}
+                <a href="/trocar-senha"><i class="fa-solid fa-key"></i> Trocar Senha</a>
+            {% endif %}
         </nav>
         <div class="main-container">
             {% block body %}

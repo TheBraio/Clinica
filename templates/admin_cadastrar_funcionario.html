@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+
+{% block head %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin_cadastrar_funcionario.css') }}">
+    <script>
+        function campoExtra() {
+            const selectCargo = document.getElementById('cargo')
+            const campoDoutor = document.getElementById('doutor')
+            const campoAtendente = document.getElementById('atendente')
+
+            if (selectCargo.value === 'doutor') {
+                campoDoutor.style.display = 'flex'
+            } else {
+                campoDoutor.style.display = 'none'
+            }
+
+            if (selectCargo.value === 'atendente') {
+                campoAtendente.style.display = 'flex'
+            } else {
+                campoAtendente.style.display = 'none'
+            }
+        }
+    </script>
+{% endblock %}
+
+{% block body %}
+    <span class="title">Cadastro de funcionário</span>
+    <form action="/crud/funcionarios" method="POST">
+        <div class="container1">
+            <span class="subtitle">Informações</span>
+
+            <label for="nome">Nome</label>
+            <input type="text" name='nome' id='nome' class="gap" required>
+
+            <label for="CPF">CPF</label>
+            <input type="text" name='CPF' id="CPF" class="gap" required>
+
+            <label for="cargo">Cargo</label>
+            <select class="gap" name="cargo" id="cargo" onchange="campoExtra()" required>
+                <option value="doutor">Doutor</option>
+                <option value="atendente">Atendente</option>
+                <option value="none" disabled selected>------------</option>
+            </select>
+
+            <div style="display: none; flex-direction: column" id="doutor">
+                <label for="consultorio">Consultorio</label>
+                <input type="number" name="consultorio" id="consultorio">
+            </div>
+            
+            <div style="display: none; flex-direction: column" id="atendente">
+                <label for="setor">Setor</label>
+                <input class="gap" type="number" name="setor" id="setor">
+            </div>
+
+            <div style="display:flex; flex-direction: row; justify-content: center; align-items: center; margin-top: 1rem; margin-bottom: 1rem;">
+                <label for="admin">Admin</label>
+                <input class="gap" type="checkbox" id='admin' name="admin" value='True'>
+            </div>
+
+            <button type="submit">Enviar</button>
+        </div>
+    </form>
+{% endblock %}
