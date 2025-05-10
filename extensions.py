@@ -3,14 +3,19 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_socketio import SocketIO
 from flask_cors import CORS
 from flask_migrate import Migrate
+from config import config
 
-app = Flask(__name__)
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///dados.db"
-app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
-app.secret_key = "Chave_que_ninguem_jamais_descobrira"
+db = SQLAlchemy()
+socketio = SocketIO()
+migrate = Migrate()
 
-CORS(app)
-db = SQLAlchemy(app)
-socketio = SocketIO(app, cors_allowed_origins="*")
+def create_app(config_name='default'):
+    app = Flask(__name__)
+    app.config.from_object(config[config_name])
 
-migrate = Migrate(app, db)
+    db.init_app(app)
+    CORS(app)
+    socketio.init_app(app, cors_allowed_origins="*")
+    migrate.init_app(app, db)
+
+    return app

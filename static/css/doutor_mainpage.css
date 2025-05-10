@@ -1,22 +1,58 @@
 .main-container {
-    display:flex;
+    display: flex;
     flex-direction: column;
-    overflow: hidden
+    overflow: hidden;
+}
+
+.connection-status {
+    padding: 5px 10px;
+    border-radius: 5px;
+    margin: 5px auto 20px auto;
+    font-size: 14px;
+    text-align: center;
+    width: fit-content;
+}
+
+.connected {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.disconnected {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+.fila-count {
+    background-color: #007bff;
+    color: white;
+    border-radius: 50%;
+    padding: 2px 8px;
+    margin-left: 10px;
+    font-size: 14px;
+}
+
+.empty-queue {
+    color: #6c757d;
+    font-style: italic;
 }
 
 .container {
     display: grid;
-    grid-template-columns: minmax(100px,1fr) minmax(200px,2fr) minmax(100px,1fr);
-    grid-template-rows: minmax(100%,1fr);
-    height:70%;
-    width:100%;
+    grid-template-columns: minmax(100px, 1fr) minmax(200px, 2fr) minmax(
+            100px,
+            1fr
+        );
+    grid-template-rows: minmax(100%, 1fr);
+    height: 70%;
+    width: 100%;
     max-width: 100%;
     max-height: 70%;
-    gap: 20px
+    gap: 20px;
 }
 
 .block {
-    display:flex;
+    display: flex;
     flex-direction: column;
     border: 3px ridge aliceblue;
     border-radius: 10px;
@@ -32,7 +68,6 @@
     font-weight: bold;
     margin-bottom: 40px;
 }
-
 
 .subtitles {
     text-align: center;
@@ -55,7 +90,7 @@
 }
 
 #nomeSpan {
-    height:2.5rem;
+    height: 2.5rem;
     border: 2px inset black;
     border-radius: 10px;
     margin-bottom: 50px;
@@ -67,7 +102,7 @@
 }
 
 #descricaoSpan {
-    height:10rem;
+    height: 10rem;
     border: 2px inset black;
     border-radius: 10px;
     padding: 10px;
